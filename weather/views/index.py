@@ -23,11 +23,11 @@ class Index(View):
                     City.add_city(city)
                 else:
                     status = False
-                    message = 'This City does not exist'
+                    message = f'{city} City does not exist'
                     message_class = "error"
             else:
                 status = False
-                message = 'This City already exists'
+                message = f'{city} City already exists'
                 message_class = "error"
                 
             if (status):
