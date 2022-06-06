@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="static/index.css" rel="stylesheet" type="text/css">
+    <title>Weather</title>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>What is WEATHER like Today? <i class="fas fa-sun"></i></h1>
+    </nav>
+
+    <div class="city">
+        <form action="/#", method="POST", class="box">
+            {% csrf_token %}
+            <input class="data" type="text", name="city", placeholder="Enter the name of the city" align="middle">
+            <button type="submit" class="btn"><i class="fas fa-search"></i></button>
+        </form>
+        <br>
+    </div>
+
+    {% if message %}
+        <div class="flash">
+            <div class= {{message_class}}>
+                <p id="hideaway">{{ message }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    {% for weather in weather_data %}
+        <div class="wether-info">
+            <div class="heading-city flex2">
+                <h1 id={{weather.city}} , class="heading flex2">{{ weather.city }}</h1>
+                <form action="", method="POST">
+                    {% csrf_token %}
+                    <input hidden name="trash" value="{{weather.city}}">
+                    <button type="submit"><i class="fas fa-trash flex2"></i></button>
+                </form>
+                <br>
+            </div>
+
+            <div class="info">
+                <p class="c">Current Weather</p>
+                <div class="format flex1">
+                    <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png">
+                    <h1>{{ weather.temperature }}°F</h1>
+                    <h2>feels like {{  weather.feels }}°F</h2>
+                </div>
+                <h2 class="j">{{ weather.description }}</h2>
+            </div>
+           
+            <div class="info">
+                <div class="format1">
+                    <h2 class="l">Min-temp</h2>
+                    <h1 class="r">{{ weather.min_temperature }}</h1>
+                    <h2 class="l">Max-temp</h2>
+                    <h1 class="r">{{ weather.max_temperature }}</h1>
+                    <h2 class="l">Humidity</h2>
+                    <h1 class="r"> {{ weather.humidity }}</h1>
+                    <h2 class="l">Visibility</h2>
+                    <h1 class="r">{{ weather.visibility }}</h1>
+                    <h2 class="l">Wind-Speed</h2>
+                    <h1 class="r">{{ weather.wind }}</h1>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+    {% endfor %}
+
+</body>
+</html>
