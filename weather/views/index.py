@@ -38,12 +38,17 @@ class Index(View):
             City.delete_city(trash)
             message = f'{trash} city deleted succesfully'
             message_class = "success"
-
+        
         weather_cities = self.weather_for_all()
-        return render(request, "index.html", {"weather_data":weather_cities, "message":message, "message_class":message_class})
+        base_url = reverse('index')
+        query_string =  urlencode({'message': message, "message_class":message_class}) 
+        url = '{}?{}'.format(base_url, query_string)
+        return redirect(url)
     
 
     def get(self, request):
+        message = request.GET.get("message")
+        message_class = request.GET.get("message_class")
         weather_cities = self.weather_for_all()
         return render(request, "index.html", {"weather_data":weather_cities})
     
